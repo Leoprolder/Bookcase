@@ -1,0 +1,28 @@
+﻿@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Книжная полка</title>
+    </head>
+
+    <body>
+        @foreach(var book in ViewBag.Books)
+        {
+            <div class="book">
+                <h6>@book.Title</h6>
+                @foreach (var author in book.Authors)
+                {
+                    <span>@author.FirstName @author.LastName</span><br />
+                }
+                <p>@book.PageCount стр.</p>
+                <p>@book.Publisher</p>
+            </div>
+        }
+    </body>
+
+</html>
