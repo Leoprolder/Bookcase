@@ -24,7 +24,7 @@ namespace Bookcase.Models
         public Author(string firstName, string lastName)
         {
             FirstName = firstName;
-            LastName = LastName;
+            LastName = lastName;
         }
     }
 }

@@ -10,12 +10,13 @@ namespace Bookcase.Models
     {
         protected override void Seed(BookContext context)
         {
-            Author tolstoy = new Author("Лев", "Толстой");
-            List<Author> authors = new List<Author>();
-            authors.Add(tolstoy);
+            //Author tolstoy = new Author("Лев", "Толстой");
+            //List<Author> authors = new List<Author>();
+            //authors.Add(tolstoy);
 
-            Book book = new Book("Война и мир", authors, 555, 1750);
-            context.Books.Add(book);
+            //Book book = new Book("Война и мир", authors, 555, 1750);
+            //context.Books.Add(book);
+
             //context.Books.Add(new Book
             //{
             //    Title = "Война и мир",

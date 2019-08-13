@@ -8,21 +8,125 @@
     <head>
         <meta name="viewport" content="width=device-width" />
         <title>Книжная полка</title>
+        <style>
+            .tile
+            {
+                width: 15%;
+                height: 20%;
+                border: 1px solid white;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.4);
+                text-align: left;
+                display: inline-grid;
+                margin: 10px;
+                padding: 5px 10px;
+                font-family: Calibri;
+            }
+
+            .tile:hover
+            {
+                box-shadow: 0 0 5px rgba(0,0,0,0.4);
+            }
+
+            #plus
+            {
+                /*width: 30px;
+                height: 30px;
+                border: 1px solid green;
+                border-radius: 100%*/;
+                font-size: 40px;
+                /*background-color: green;*/
+                text-align: center;
+            }
+            a
+            {
+                text-decoration: none;
+                color: black;
+            }
+
+            .btnEdit
+            {
+                float: right;
+                text-align: right;
+                display: inline-block;
+            }
+
+            .btnDelete
+            {
+                float: right;
+                text-align: right;
+                display: inline-block;
+                padding-left: 10px;
+            }
+        </style>
+
+        <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+
+        <script type="text/javascript">
+            $(document).on("click", ".btnDelete", function () {
+                
+            });
+
+            $(document).on("click", ".btnEdit", function () {
+                
+            });
+
+            $(document).on("click", "#btnAdd", function () {
+                var fields = $("#adder input");
+                var length = fields.length
+                for (var i = 0; i < length; i++) {
+                    console.log(fields[i].id)
+                }
+            });
+
+            $(document).on("click", "#plus", function () {
+                $("#plus").css("display", "none");
+                $("#adder").css("display", "block");
+            });
+
+            $(document).on("click", "#addAuthor", function () {
+                $("#addAuthor").before('<label>Имя: <br/><input name="FirstNam" /></label><br/>');
+                $("#addAuthor").before('<label>Фамилия: <br/><input name="LastName" /></label><br/>');
+            });
+        </script>
     </head>
 
     <body>
         @foreach(var book in ViewBag.Books)
         {
-            <div class="book">
-                <h6>@book.Title</h6>
+            <div class="tile">
+                <div>
+                    <span class="btnDelete">&#10060;</span>
+                    <span class="btnEdit">&#128295;</span>
+                </div>
+                <h3>@book.Title</h3>
+                <span>Авторы: </span>
                 @foreach (var author in book.Authors)
                 {
                     <span>@author.FirstName @author.LastName</span><br />
                 }
                 <p>@book.PageCount стр.</p>
                 <p>@book.Publisher</p>
+                <p>@book.Year</p>
+                <br />
             </div>
         }
+
+        <div class="tile">
+            <div style="display: block" id="plus"><b>+</b></div>
+            <div style="display: none" id="adder">
+                <h3>Добавление книги</h3>
+                <label>Название книги:<br /> <input name="Title" /></label><br />
+                <label><b>Авторы:</b> </label><br />
+                    <label>Имя:<br /> <input name="FirstNam" /></label><br />
+                    <label>Фамилия:<br /> <input name="LastName" /></label><br />
+                    <button id="addAuthor">Добавить автора</button><br />
+                <label>Количество страниц:<br /> <input name="PageCount" /></label><br />
+                <label>Издательство: <br /><input name="Publisher" /></label><br />
+                <label>Год публикации: <br /><input name="Year" /></label><br />
+                <button id="btnAdd">Добавить книгу</button>
+            </div>
+        </div>
     </body>
 
 </html>
