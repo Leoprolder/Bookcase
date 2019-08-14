@@ -8,14 +8,16 @@ namespace Bookcase.Models
 {
     public class BookDbInitializer : DropCreateDatabaseAlways<BookContext>
     {
-        protected override void Seed(BookContext context)
+        protected override void Seed(BookContext db)
         {
-            //Author tolstoy = new Author("Лев", "Толстой");
-            //List<Author> authors = new List<Author>();
-            //authors.Add(tolstoy);
+            Author tolstoy = new Author("Лев", "Толстой");
+            Author another = new Author("Аноним", "Анонимович");
+            List<Author> authors = new List<Author>();
+            authors.Add(tolstoy);
+            authors.Add(another);
 
-            //Book book = new Book("Война и мир", authors, 555, 1750);
-            //context.Books.Add(book);
+            Book book = new Book("Война и мир", authors, 555, 1750);
+            db.Books.Add(book);
 
             //context.Books.Add(new Book
             //{
@@ -32,7 +34,7 @@ namespace Bookcase.Models
             //    }
             //});
 
-            base.Seed(context); 
+            base.Seed(db); 
         }
     }
 }

@@ -14,12 +14,12 @@
                 width: 15%;
                 height: 20%;
                 border: 1px solid white;
-                border-radius: 5px;
+                border-radius: 15px;
                 box-shadow: 0 0 10px rgba(0,0,0,0.4);
                 text-align: left;
                 display: inline-grid;
                 margin: 10px;
-                padding: 5px 10px;
+                padding: 5px 15px;
                 font-family: Calibri;
             }
 
@@ -63,9 +63,9 @@
         <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 
         <script type="text/javascript">
-            $(document).on("click", ".btnDelete", function () {
-                
-            });
+            //$(document).on("click", ".btnDelete", function () {
+            //    document.location.href = "Home/DeleteBook";
+            //});
 
             $(document).on("click", ".btnEdit", function () {
                 
@@ -73,10 +73,12 @@
 
             $(document).on("click", "#btnAdd", function () {
                 var fields = $("#adder input");
-                var length = fields.length
-                for (var i = 0; i < length; i++) {
-                    console.log(fields[i].id)
-                }
+                console.log(fields)
+                //$.ajax()
+                //var length = fields.length
+                //for (var i = 0; i < length; i++) {
+                //    console.log(fields[i].id)
+                //}
             });
 
             $(document).on("click", "#plus", function () {
@@ -96,15 +98,12 @@
         {
             <div class="tile">
                 <div>
-                    <span class="btnDelete">&#10060;</span>
-                    <span class="btnEdit">&#128295;</span>
+                    <span class="btnDelete"><a href="/Home/DeleteBook/@book.Id" title="Удалить">&#10060;</a></span>
+                    <span class="btnEdit"><a href="#~" title="Редактировать">&#128295;</a></span>
                 </div>
                 <h3>@book.Title</h3>
                 <span>Авторы: </span>
-                @foreach (var author in book.Authors)
-                {
-                    <span>@author.FirstName @author.LastName</span><br />
-                }
+                <p>@book.Authors</p>
                 <p>@book.PageCount стр.</p>
                 <p>@book.Publisher</p>
                 <p>@book.Year</p>
@@ -113,7 +112,7 @@
         }
 
         <div class="tile">
-            <div style="display: block" id="plus"><b>+</b></div>
+            <div style="display: block" id="plus"><b><a href="#~">+</a></b></div>
             <div style="display: none" id="adder">
                 <h3>Добавление книги</h3>
                 <label>Название книги:<br /> <input name="Title" /></label><br />

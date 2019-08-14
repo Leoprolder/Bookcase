@@ -14,7 +14,7 @@ namespace Bookcase.Models
         public string Title { get; set; }
         //[Display(Name = "Авторы")]
         //[Required()]
-        public List<Author> Authors { get; set; }
+        public string Authors { get; set; }
         //[Display(Name = "Число страниц")]
         //[Required()]
         public int PageCount { get; set; }
@@ -32,10 +32,16 @@ namespace Bookcase.Models
         public Book(string title, List<Author> authors, int pageCount, int year, string publisher = "")
         {
             Title = title;
-            Authors = authors;
             PageCount = pageCount;
             Year = year;
             Publisher = publisher;
+
+            for (int i = 0; i < authors.Count; i++)
+            {
+                Authors += $"{authors[i].FirstName} {authors[i].LastName}";
+                if (i != authors.Count - 1)
+                    Authors += ", ";
+            }
         }
     }
 }

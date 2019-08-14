@@ -14,18 +14,18 @@ namespace Bookcase.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //IEnumerable<Book> books = db.Books;
-            //ViewBag.Books = books;
+            IEnumerable<Book> books = db.Books;
+            ViewBag.Books = books;
 
-            Author tolstoy = new Author("Лев", "Толстой");
-            Author another = new Author("Аноним", "Анонимов");
-            List<Author> authors = new List<Author>();
-            authors.Add(tolstoy);
-            authors.Add(another);
+            //Author tolstoy = new Author("Лев", "Толстой");
+            //Author another = new Author("Аноним", "Анонимов");
+            //List<Author> authors = new List<Author>();
+            //authors.Add(tolstoy);
+            //authors.Add(another);
 
-            Book book = new Book("Война и мир", authors, 555, 1750);
-            List<Book> books = new List<Book>();
-            books.Add(book);
+            //Book book = new Book("Война и мир", authors, 555, 1750);
+            //db.Books.Add(book);
+
             ViewBag.Books = books;
 
             return View();
@@ -49,12 +49,14 @@ namespace Bookcase.Controllers
             return View();
         }
 
-        [HttpDelete]
-        public ActionResult DeleteBook(int bookId)
+        [HttpGet]
+        public void DeleteBook(int? bookId)
         {
-            db.Books.Remove(db.Books.Find(bookId));
+            if(bookId != null)
+                db.Books.Remove(db.Books.Find(bookId));
+            db.Books.Remove(db.Books.Find(1));
 
-            return View();
+            //return View();
         }
 
         //public ActionResult Index()
