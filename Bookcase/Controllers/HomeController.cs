@@ -17,17 +17,6 @@ namespace Bookcase.Controllers
             IEnumerable<Book> books = db.Books;
             ViewBag.Books = books;
 
-            //Author tolstoy = new Author("Лев", "Толстой");
-            //Author another = new Author("Аноним", "Анонимов");
-            //List<Author> authors = new List<Author>();
-            //authors.Add(tolstoy);
-            //authors.Add(another);
-
-            //Book book = new Book("Война и мир", authors, 555, 1750);
-            //db.Books.Add(book);
-
-            ViewBag.Books = books;
-
             return View();
         }
 
@@ -50,13 +39,19 @@ namespace Bookcase.Controllers
         }
 
         [HttpGet]
-        public void DeleteBook(int? bookId)
+        public ActionResult DeleteBook(int? Id)
         {
-            if(bookId != null)
-                db.Books.Remove(db.Books.Find(bookId));
-            db.Books.Remove(db.Books.Find(1));
+            if (Id != null)
+            {
+                Book book = db.Books.Find((int)(Id));
+                db.Books.Remove(book);
+                db.SaveChanges();
+            }
 
-            //return View();
+            IEnumerable<Book> books = db.Books;
+            ViewBag.Books = books;
+
+            return View("Index");
         }
 
         //public ActionResult Index()

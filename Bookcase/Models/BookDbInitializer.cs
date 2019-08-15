@@ -10,29 +10,26 @@ namespace Bookcase.Models
     {
         protected override void Seed(BookContext db)
         {
-            Author tolstoy = new Author("Лев", "Толстой");
-            Author another = new Author("Аноним", "Анонимович");
-            List<Author> authors = new List<Author>();
-            authors.Add(tolstoy);
-            authors.Add(another);
+            for (int i = 0; i < 20; i++)
+            {
+                Author tolstoy = new Author("Лев", "Толстой");
+                Author another = new Author("Аноним", "Анонимович");
+                List<Author> authors = new List<Author>();
+                authors.Add(tolstoy);
+                authors.Add(another);
 
-            Book book = new Book("Война и мир", authors, 555, 1750);
-            db.Books.Add(book);
+                Book book = new Book("Война и мир", authors, 555, 1750);
+                db.Books.Add(book);
 
-            //context.Books.Add(new Book
-            //{
-            //    Title = "Война и мир",
-            //    PageCount = 555,
-            //    Publisher = "Москва",
-            //    Year = 1750,
-            //    Authors = {
-            //        new Author
-            //        {
-            //            FirstName = "Лев",
-            //            LastName = "Толстой"
-            //        }
-            //    }
-            //});
+                Author gayNigga = new Author("Гей", "Ниггер");
+                Author fromSpace = new Author("Из", "Космоса");
+                List<Author> gayNiggaFromSpace = new List<Author>();
+                gayNiggaFromSpace.Add(gayNigga);
+                gayNiggaFromSpace.Add(fromSpace);
+
+                Book book2 = new Book("Геи ниггеры из далёкого космоса", gayNiggaFromSpace, 10, 2077);
+                db.Books.Add(book2);
+            }
 
             base.Seed(db); 
         }

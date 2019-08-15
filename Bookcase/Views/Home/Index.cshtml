@@ -9,6 +9,11 @@
         <meta name="viewport" content="width=device-width" />
         <title>Книжная полка</title>
         <style>
+            body
+            {
+                
+            }
+
             .tile
             {
                 width: 15%;
@@ -94,25 +99,28 @@
     </head>
 
     <body>
-        @foreach(var book in ViewBag.Books)
+        @if (ViewBag.Books != null)
         {
-            <div class="tile">
-                <div>
-                    <span class="btnDelete"><a href="/Home/DeleteBook/@book.Id" title="Удалить">&#10060;</a></span>
-                    <span class="btnEdit"><a href="#~" title="Редактировать">&#128295;</a></span>
+            foreach (var book in ViewBag.Books)
+            {
+                <div class="tile">
+                    <div>
+                        <span class="btnDelete"><a href="/Home/DeleteBook/@book.Id" title="Удалить">&#10060;</a></span>
+                        <span class="btnEdit"><a href="#~" title="Редактировать">&#128295;</a></span>
+                    </div>
+                    <h3>@book.Title</h3>
+                    <span>Авторы: </span>
+                    <p>@book.Authors</p>
+                    <p>@book.PageCount стр.</p>
+                    <p>@book.Publisher</p>
+                    <p>@book.Year</p>
+                    <br />
                 </div>
-                <h3>@book.Title</h3>
-                <span>Авторы: </span>
-                <p>@book.Authors</p>
-                <p>@book.PageCount стр.</p>
-                <p>@book.Publisher</p>
-                <p>@book.Year</p>
-                <br />
-            </div>
+            }
         }
 
-        <div class="tile">
-            <div style="display: block" id="plus"><b><a href="#~">+</a></b></div>
+        <div class="tile" >
+            <div style="display: block;" id="plus"><b><a href="#~">+</a></b></div>
             <div style="display: none" id="adder">
                 <h3>Добавление книги</h3>
                 <label>Название книги:<br /> <input name="Title" /></label><br />
