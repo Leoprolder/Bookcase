@@ -123,7 +123,7 @@
                                     '<input name="LastName" type="text" value="' + lastName + '"/> <br />' +
                                     '<br />'
                 }
-                form +=         '<input type="button" value="Добавить" id="btnAddAuthor"/>' +
+                form +=         '<input type="button" value="Добавить" class="btnAddAuthor"/>' +
                                 '</div>' +
                                 '<br />'
 
@@ -151,10 +151,10 @@
                 $("#adder").css("display", "inline-grid");
             });
 
-            $(document).on("click", "#btnAddAuthor", function () {
-                $("#btnAddAuthor").before('<br/>');
-                $("#btnAddAuthor").before('Имя: <br/><input name="FirstName" /><br/>');
-                $("#btnAddAuthor").before('Фамилия: <br/><input name="LastName" /><br/>');
+            $(document).on("click", ".btnAddAuthor", function (event) {
+                $(event.target).before('<br/>');
+                $(event.target).before('Имя: <br/><input name="FirstName" /><br/>');
+                $(event.target).before('Фамилия: <br/><input name="LastName" /><br/>');
             });
         </script>
     </head>
@@ -203,7 +203,7 @@
                             Фамилия: <br />
                             <input name="LastName" type="text" /> <br />
                             <br />
-                            <input type="button" value="Добавить" id="btnAddAuthor"/>
+                            <input type="button" value="Добавить" class="btnAddAuthor"/>
                         </div>
                         <br />
 
