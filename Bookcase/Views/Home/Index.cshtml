@@ -11,6 +11,7 @@
         <style>
             body
             {
+                font-family: Calibri;
                 background-color: rgb(254, 241, 234)
             }
 
@@ -19,7 +20,8 @@
                 margin: 10px 40px 0px;
             }
 
-            .tile {
+            .tile 
+            {
                 width: 15%;
                 height: 20%;
                 border: 1px solid white;
@@ -29,7 +31,6 @@
                 display: inline-grid;
                 margin: 10px;
                 padding: 5px 15px;
-                font-family: Calibri;
                 background-color: white;
             }
 
@@ -64,11 +65,27 @@
                 padding-left: 10px;
             }
 
-            .addAuthor {
+            .addAuthor 
+            {
                 border: 1px solid white;
                 border-radius: 5%;
                 box-shadow: 0 0 5px rgba(0,0,0,0.4);
                 padding: 5%;
+            }
+
+            .filter
+            {
+                border-radius: 15px;
+                border: 1px solid white;
+                box-shadow: 0 0 5px rgba(0,0,0,0.4);
+                background-color: white;
+                width: 150px;
+                padding: 10px;
+            }
+            input
+            {
+                border: 1px solid rgb(128, 128, 128);
+                border-radius: 3px;
             }
         </style>
 
@@ -143,6 +160,13 @@
     </head>
 
     <body>
+        <div class="filter">
+            Cортировать по:
+            <select>
+                <option>Имени</option>
+                <option>Году издания</option>
+            </select>
+        </div>
         <div class="main">
             @if (ViewBag.Books != null)
             {
