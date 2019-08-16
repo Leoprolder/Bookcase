@@ -28,7 +28,7 @@ namespace Bookcase.Models
         }
         [Display(Name = "Авторы")]
         [Required()]
-        public string Authors { get; private set; }
+        public string Authors { get; set; }
         private int pageCount;
         [Display(Name = "Число страниц")]
         [Required()]
