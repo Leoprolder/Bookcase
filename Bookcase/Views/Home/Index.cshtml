@@ -117,11 +117,11 @@
                 {
                     var firstName = authorsArray[i].split(' ')[0]
                     var lastName = authorsArray[i].split(' ')[1]
-                    form += 'Имя: <br />' +
-                                    '<input name="FirstName" type="text" value="' + firstName + '"/> <br />' +
-                                    'Фамилия: <br />' +
-                                    '<input name="LastName" type="text" value="' + lastName + '"/> <br />' +
-                                    '<br />'
+                    form +=     'Имя: <br />' +
+                                '<input name="FirstName" type="text" value="' + firstName + '"/> <br />' +
+                                'Фамилия: <br />' +
+                                '<input name="LastName" type="text" value="' + lastName + '"/> <br />' +
+                                '<br />'
                 }
                 form +=         '<input type="button" value="Добавить" class="btnAddAuthor"/>' +
                                 '</div>' +
@@ -156,15 +156,24 @@
                 $(event.target).before('Имя: <br/><input name="FirstName" /><br/>');
                 $(event.target).before('Фамилия: <br/><input name="LastName" /><br/>');
             });
+
+            $(document).ready(function () {
+                $('#sorting').val(document.cookie.indexOf('byName') >= 0 ? 'byName' : 'byYear')
+            });
+
+            function sortingChanged() {
+                document.cookie = 'sorting=' + $('#sorting').val();
+                document.location.href = '/'
+            }
         </script>
     </head>
 
     <body>
         <div class="filter">
             Cортировать по:
-            <select>
-                <option>Имени</option>
-                <option>Году издания</option>
+            <select id="sorting" onchange="sortingChanged()">
+                <option value="byName">Имени</option>
+                <option value="byYear">Году издания</option>
             </select>
         </div>
         <div class="main">

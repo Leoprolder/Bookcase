@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,7 +15,21 @@ namespace Bookcase.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            IEnumerable<Book> books = db.Books;
+            List<Book> books = new List<Book>(db.Books);
+
+            string sorting = Request.Cookies["sorting"]?.Value ?? String.Empty;
+
+            if(sorting.Equals("byName"))
+            {
+                TitleComparer titleComparer = new TitleComparer();
+                books.Sort(titleComparer);
+            }
+            else if(sorting.Equals("byYear"))
+            {
+                YearComparer yearComparer = new YearComparer();
+                books.Sort(yearComparer);
+            }
+
             ViewBag.Books = books;
 
             return View();
