@@ -9,9 +9,9 @@
         <meta name="viewport" content="width=device-width" />
         <title>Книжная полка</title>
         <style>
-            body
+            .main
             {
-                
+                margin: 10px 40px 0px;
             }
 
             .tile
@@ -38,7 +38,7 @@
                 /*width: 30px;
                 height: 30px;
                 border: 1px solid green;
-                border-radius: 100%*/;
+                border-radius: 100%;*/
                 font-size: 40px;
                 /*background-color: green;*/
                 text-align: center;
@@ -91,47 +91,95 @@
                 $("#adder").css("display", "block");
             });
 
-            $(document).on("click", "#addAuthor", function () {
-                $("#addAuthor").before('<label>Имя: <br/><input name="FirstNam" /></label><br/>');
-                $("#addAuthor").before('<label>Фамилия: <br/><input name="LastName" /></label><br/>');
+            $(document).on("click", "#btnAddAuthor", function () {
+                $("#btnAddAuthor").before('<br/>');
+                $("#btnAddAuthor").before('Имя: <br/><input name="FirstName" /><br/>');
+                $("#btnAddAuthor").before('Фамилия: <br/><input name="LastName" /><br/>');
             });
         </script>
     </head>
 
     <body>
-        @if (ViewBag.Books != null)
-        {
-            foreach (var book in ViewBag.Books)
+        <div class="main">
+            @if (ViewBag.Books != null)
             {
-                <div class="tile">
-                    <div>
-                        <span class="btnDelete"><a href="/Home/DeleteBook/@book.Id" title="Удалить">&#10060;</a></span>
-                        <span class="btnEdit"><a href="#~" title="Редактировать">&#128295;</a></span>
+                foreach (var book in ViewBag.Books)
+                {
+                    <div class="tile">
+                        <div>
+                            <span class="btnDelete"><a href="/Home/DeleteBook/@book.Id" title="Удалить">&#10060;</a></span>
+                            <span class="btnEdit"><a href="#~" title="Редактировать">&#128295;</a></span>
+                        </div>
+                        <h3>@book.Title</h3>
+                        <span>Авторы: </span>
+                        <p>@book.Authors</p>
+                        <p>@book.PageCount стр.</p>
+                        <p>@book.Publisher</p>
+                        <p>@book.Year</p>
+                        <br />
                     </div>
-                    <h3>@book.Title</h3>
-                    <span>Авторы: </span>
-                    <p>@book.Authors</p>
-                    <p>@book.PageCount стр.</p>
-                    <p>@book.Publisher</p>
-                    <p>@book.Year</p>
-                    <br />
-                </div>
+                }
             }
-        }
 
-        <div class="tile" >
-            <div style="display: block;" id="plus"><b><a href="#~">+</a></b></div>
-            <div style="display: none" id="adder">
-                <h3>Добавление книги</h3>
-                <label>Название книги:<br /> <input name="Title" /></label><br />
-                <label><b>Авторы:</b> </label><br />
-                    <label>Имя:<br /> <input name="FirstNam" /></label><br />
-                    <label>Фамилия:<br /> <input name="LastName" /></label><br />
-                    <button id="addAuthor">Добавить автора</button><br />
-                <label>Количество страниц:<br /> <input name="PageCount" /></label><br />
-                <label>Издательство: <br /><input name="Publisher" /></label><br />
-                <label>Год публикации: <br /><input name="Year" /></label><br />
-                <button id="btnAdd">Добавить книгу</button>
+            <div class="tile">
+                <div style="display: block;" id="plus"><b><a href="#~">+</a></b></div>
+                <div style="display: none" id="adder">
+                    <h3>Добавление книги</h3>
+                    <form action="/Home/AddBook" method="post">
+                        <span>Название:</span><br />
+                        <input name="Title" type="text" />
+
+                        <span><b>Авторы:</b></span><br />
+                        <div style="border: 1px solid white; border-radius: 5%; box-shadow: 0 0 5px rgba(0,0,0,0.4); padding: 5%">
+                            Имя: <br />
+                            <input name="FirstName" type="text" />
+                            Фамилия: <br />
+                            <input name="LastName" type="text" />
+                            <br />
+                            <input type="button" value="Добавить" id="btnAddAuthor"/>
+                        </div>
+                        <br />
+
+                        <span>Кол-во страниц:</span><br />
+                        <input name="PageCount" type="number" />
+
+                        <span>Издатель: </span><br />
+                        <input name="Publisher" type="text" />
+
+                        <span>Год издания:</span><br />
+                        <input name="Year" type="number" />
+                        <br />
+                        <input type="submit" />
+                    </form>
+
+
+                        @*@using (Html.BeginForm("AddBook", "Home", FormMethod.Post))
+                        {
+                            @model Bookcase.Models.Book
+                            {
+                                @: <b>Название:</b> @Html.EditorFor(o => o.Title)<br />
+                                @: Авторы: 
+                                    @Html.EditorFor(o => o.Authors)<br />
+                                @: Кол-во страниц: @Html.EditorFor(o => o.PageCount)<br />
+                                @: Издатель: @Html.EditorFor(o => o.Publisher)<br />
+                                @: Год издания: @Html.EditorFor(o => o.Year)<br />
+                            }
+                            <br />
+                            <input type="submit"/>
+                        }*@
+                    @*@using (Html.BeginForm("AddBook", "Home", FormMethod.Post))
+                    {
+                        <label>Название книги:<br /> <input name="Title" /></label><br />
+                        <label><b>Авторы:</b> </label><br />
+                        <label>Имя:<br /> <input name="FirstNam" /></label><br />
+                        <label>Фамилия:<br /> <input name="LastName" /></label><br />
+                        <button id="addAuthor">Добавить автора</button><br />
+                        <label>Количество страниц:<br /> <input name="PageCount" /></label><br />
+                        <label>Издательство: <br /><input name="Publisher" /></label><br />
+                        <label>Год публикации: <br /><input name="Year" /></label><br />
+                        <input id="btnAdd" value="Добавить книгу" />
+                    }*@
+                </div>
             </div>
         </div>
     </body>

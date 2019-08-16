@@ -21,12 +21,23 @@ namespace Bookcase.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddBook(Book book)
+        //public ActionResult AddBook(Book book)
+        public ActionResult AddBook(string Title, List<string> FirstName, List<string> LastName, int? PageCount, string Publisher, int? Year)
         {
+            List<Author> authors = new List<Author>();
+            int authorCount = FirstName.Count == LastName.Count ? FirstName.Count : 0;
+            for (int i = 0; i < authorCount; i++)
+            {
+                authors.Add(new Author(FirstName[i], LastName[i]));
+            }
+            Book book = new Book(Title, authors, (int)PageCount, (int)Year, Publisher);
             db.Books.Add(book);
-            ViewBag.Books = db.Books;
+            db.SaveChanges();
 
-            return View();
+            IEnumerable<Book> books = db.Books;
+            ViewBag.Books = books;
+
+            return View("Index");
         }
 
         [HttpPut]
