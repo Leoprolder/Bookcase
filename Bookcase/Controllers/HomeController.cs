@@ -49,17 +49,14 @@ namespace Bookcase.Controllers
             {
                 authors.Add(new Author(FirstName[i], LastName[i]));
             }
-            Book book = new Book(Title, authors, (int)PageCount, (int)Year, Publisher);
-            book.Id = (int)Id;
+            Book newBook = new Book(Title, authors, (int)PageCount, (int)Year, Publisher);
 
-            if (Id != null)
-            {
-                Book bookTemp = db.Books.Find((int)(Id));
-                db.Books.Remove(bookTemp);
-                db.SaveChanges();
-            }
-
-            db.Books.Add(book);
+            Book book = db.Books.Find(Id);
+            book.Title = newBook.Title;
+            book.Authors = newBook.Authors;
+            book.Publisher = newBook.Publisher;
+            book.PageCount = (int)newBook.PageCount;
+            book.Year = (int)newBook.Year;
             db.SaveChanges();
 
             IEnumerable<Book> books = db.Books;
@@ -83,24 +80,5 @@ namespace Bookcase.Controllers
 
             return View("Index");
         }
-
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
-        //public ActionResult About()
-        //{
-        //    ViewBag.Message = "Your application description page.";
-
-        //    return View();
-        //}
-
-        //public ActionResult Contact()
-        //{
-        //    ViewBag.Message = "Your contact page.";
-
-        //    return View();
-        //}
     }
 }

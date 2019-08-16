@@ -81,27 +81,36 @@
                 var bookId = tile.attr('id').replace("book_", "");
 
                 var Title = $('#book_' + bookId + ' h3[name=Title]').text();
+                var Authors = $('#book_' + bookId + ' p[name=Authors]').text();
                 var PageCount = $('#book_' + bookId + ' p[name=PageCount]').text().replace(" стр.", "");
                 var Publisher = $('#book_' + bookId + ' p[name=Publisher]').text();
                 var Year = $('#book_' + bookId + ' p[name=Year]').text().replace(" г.", "");
 
-                var form =  '<form action="/Home/EditBook" method="post">' + 
+                var authorsArray = Authors.split(', ');
+                console.log()
+
+                var form =  '<h3>Редактирование книги</h3>' + 
+                            '<form action="/Home/EditBook" method="post">' + 
                                 '<input name=Id style="display:none" type="number" value=' + bookId + ' />' + 
                                 '<span>Название:</span><br />' +
                                 '<input name="Title" type="text" value="' + Title + '"/> <br />' +
-
                                 '<span><b>Авторы:</b></span><br />' +
-                                '<div class="addAuthor">' +
-                                    'Имя: <br />' +
-                                    '<input name="FirstName" type="text" /> <br />' +
+                                '<div class="addAuthor">'
+                for (var i = 0; i < authorsArray.length; i++)
+                {
+                    var firstName = authorsArray[i].split(' ')[0]
+                    var lastName = authorsArray[i].split(' ')[1]
+                    form += 'Имя: <br />' +
+                                    '<input name="FirstName" type="text" value="' + firstName + '"/> <br />' +
                                     'Фамилия: <br />' +
-                                    '<input name="LastName" type="text" /> <br />' +
-                                    '<br />' +
-                                    '<input type="button" value="Добавить" id="btnAddAuthor"/>' +
+                                    '<input name="LastName" type="text" value="' + lastName + '"/> <br />' +
+                                    '<br />'
+                }
+                form +=         '<input type="button" value="Добавить" id="btnAddAuthor"/>' +
                                 '</div>' +
-                                '<br />' +
+                                '<br />'
 
-                                'Кол-во страниц: <br />' +
+                form +=         'Кол-во страниц: <br />' +
                                 '<input name="PageCount" type="number" value="' + PageCount + '"/> <br />' +
 
                                 'Издатель: <br />' +
@@ -110,7 +119,7 @@
                                 'Год издания: <br />' +
                                 '<input name="Year" type="number" value="' + Year + '"/>' +
                                 '<br />' +
-                                '<input type="submit" />' +
+                                '<input type="submit" value="Сохранить"/>' +
                             '</form>';
 
                 $(tile).html(form);
@@ -146,7 +155,7 @@
                         </div>
                         <h3 name="Title">@book.Title</h3>
                         <span>Авторы: </span>
-                        <p>@book.Authors</p>
+                        <p name="Authors">@book.Authors</p>
                         <p name="PageCount">@book.PageCount стр.</p>
                         <p name="Publisher">@book.Publisher</p>
                         <p name="Year">@book.Year г.</p>
