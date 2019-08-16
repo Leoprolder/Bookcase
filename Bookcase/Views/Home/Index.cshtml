@@ -9,13 +9,17 @@
         <meta name="viewport" content="width=device-width" />
         <title>Книжная полка</title>
         <style>
+            body
+            {
+                background-color: rgb(254, 241, 234)
+            }
+
             .main
             {
                 margin: 10px 40px 0px;
             }
 
-            .tile
-            {
+            .tile {
                 width: 15%;
                 height: 20%;
                 border: 1px solid white;
@@ -26,6 +30,7 @@
                 margin: 10px;
                 padding: 5px 15px;
                 font-family: Calibri;
+                background-color: white;
             }
 
             .tile:hover
@@ -35,12 +40,7 @@
 
             #plus
             {
-                /*width: 30px;
-                height: 30px;
-                border: 1px solid green;
-                border-radius: 100%;*/
                 font-size: 40px;
-                /*background-color: green;*/
                 text-align: center;
             }
             a
@@ -63,32 +63,66 @@
                 display: inline-block;
                 padding-left: 10px;
             }
+
+            .addAuthor {
+                border: 1px solid white;
+                border-radius: 5%;
+                box-shadow: 0 0 5px rgba(0,0,0,0.4);
+                padding: 5%;
+            }
         </style>
 
         <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 
         <script type="text/javascript">
-            //$(document).on("click", ".btnDelete", function () {
-            //    document.location.href = "Home/DeleteBook";
-            //});
 
-            $(document).on("click", ".btnEdit", function () {
-                
+            $(document).on("click", ".btnEdit", function (event) {
+                var tile = $(this).parent().parent();
+                var bookId = tile.attr('id').replace("book_", "");
+
+                var Title = $('#book_' + bookId + ' h3[name=Title]').text();
+                var PageCount = $('#book_' + bookId + ' p[name=PageCount]').text().replace(" стр.", "");
+                var Publisher = $('#book_' + bookId + ' p[name=Publisher]').text();
+                var Year = $('#book_' + bookId + ' p[name=Year]').text().replace(" г.", "");
+
+                var form =  '<form action="/Home/EditBook" method="post">' + 
+                                '<input name=Id style="display:none" type="number" value=' + bookId + ' />' + 
+                                '<span>Название:</span><br />' +
+                                '<input name="Title" type="text" value="' + Title + '"/> <br />' +
+
+                                '<span><b>Авторы:</b></span><br />' +
+                                '<div class="addAuthor">' +
+                                    'Имя: <br />' +
+                                    '<input name="FirstName" type="text" /> <br />' +
+                                    'Фамилия: <br />' +
+                                    '<input name="LastName" type="text" /> <br />' +
+                                    '<br />' +
+                                    '<input type="button" value="Добавить" id="btnAddAuthor"/>' +
+                                '</div>' +
+                                '<br />' +
+
+                                'Кол-во страниц: <br />' +
+                                '<input name="PageCount" type="number" value="' + PageCount + '"/> <br />' +
+
+                                'Издатель: <br />' +
+                                '<input name="Publisher" type="text" value="' + Publisher + '"/> <br />' +
+
+                                'Год издания: <br />' +
+                                '<input name="Year" type="number" value="' + Year + '"/>' +
+                                '<br />' +
+                                '<input type="submit" />' +
+                            '</form>';
+
+                $(tile).html(form);
             });
 
-            $(document).on("click", "#btnAdd", function () {
-                var fields = $("#adder input");
-                console.log(fields)
-                //$.ajax()
-                //var length = fields.length
-                //for (var i = 0; i < length; i++) {
-                //    console.log(fields[i].id)
-                //}
-            });
+            function restoreTitleState(title, prevState) {
+                $(title).html(prevState);
+            }
 
             $(document).on("click", "#plus", function () {
                 $("#plus").css("display", "none");
-                $("#adder").css("display", "block");
+                $("#adder").css("display", "inline-grid");
             });
 
             $(document).on("click", "#btnAddAuthor", function () {
@@ -105,80 +139,52 @@
             {
                 foreach (var book in ViewBag.Books)
                 {
-                    <div class="tile">
-                        <div>
+                    <div class="tile" id="book_@book.Id">
+                        <div class="btnsContainer">
                             <span class="btnDelete"><a href="/Home/DeleteBook/@book.Id" title="Удалить">&#10060;</a></span>
-                            <span class="btnEdit"><a href="#~" title="Редактировать">&#128295;</a></span>
+                            <span class="btnEdit"><a href="#~" title="Редактировать">&#128397;</a></span>
                         </div>
-                        <h3>@book.Title</h3>
+                        <h3 name="Title">@book.Title</h3>
                         <span>Авторы: </span>
                         <p>@book.Authors</p>
-                        <p>@book.PageCount стр.</p>
-                        <p>@book.Publisher</p>
-                        <p>@book.Year</p>
+                        <p name="PageCount">@book.PageCount стр.</p>
+                        <p name="Publisher">@book.Publisher</p>
+                        <p name="Year">@book.Year г.</p>
                         <br />
                     </div>
                 }
             }
 
             <div class="tile">
-                <div style="display: block;" id="plus"><b><a href="#~">+</a></b></div>
+                <div style="display: inline-grid;" id="plus"><b><a href="#~">+</a></b></div>
                 <div style="display: none" id="adder">
                     <h3>Добавление книги</h3>
                     <form action="/Home/AddBook" method="post">
                         <span>Название:</span><br />
-                        <input name="Title" type="text" />
+                        <input name="Title" type="text" /> <br />
 
                         <span><b>Авторы:</b></span><br />
-                        <div style="border: 1px solid white; border-radius: 5%; box-shadow: 0 0 5px rgba(0,0,0,0.4); padding: 5%">
+                        <div class="addAuthor">
                             Имя: <br />
-                            <input name="FirstName" type="text" />
+                            <input name="FirstName" type="text" /> <br />
                             Фамилия: <br />
-                            <input name="LastName" type="text" />
+                            <input name="LastName" type="text" /> <br />
                             <br />
                             <input type="button" value="Добавить" id="btnAddAuthor"/>
                         </div>
                         <br />
 
-                        <span>Кол-во страниц:</span><br />
-                        <input name="PageCount" type="number" />
+                        Кол-во страниц: <br />
+                        <input name="PageCount" type="number" /> <br />
 
-                        <span>Издатель: </span><br />
-                        <input name="Publisher" type="text" />
+                        Издатель: <br />
+                        <input name="Publisher" type="text" /> <br />
 
-                        <span>Год издания:</span><br />
+                        Год издания: <br />
                         <input name="Year" type="number" />
                         <br />
                         <input type="submit" />
                     </form>
-
-
-                        @*@using (Html.BeginForm("AddBook", "Home", FormMethod.Post))
-                        {
-                            @model Bookcase.Models.Book
-                            {
-                                @: <b>Название:</b> @Html.EditorFor(o => o.Title)<br />
-                                @: Авторы: 
-                                    @Html.EditorFor(o => o.Authors)<br />
-                                @: Кол-во страниц: @Html.EditorFor(o => o.PageCount)<br />
-                                @: Издатель: @Html.EditorFor(o => o.Publisher)<br />
-                                @: Год издания: @Html.EditorFor(o => o.Year)<br />
-                            }
-                            <br />
-                            <input type="submit"/>
-                        }*@
-                    @*@using (Html.BeginForm("AddBook", "Home", FormMethod.Post))
-                    {
-                        <label>Название книги:<br /> <input name="Title" /></label><br />
-                        <label><b>Авторы:</b> </label><br />
-                        <label>Имя:<br /> <input name="FirstNam" /></label><br />
-                        <label>Фамилия:<br /> <input name="LastName" /></label><br />
-                        <button id="addAuthor">Добавить автора</button><br />
-                        <label>Количество страниц:<br /> <input name="PageCount" /></label><br />
-                        <label>Издательство: <br /><input name="Publisher" /></label><br />
-                        <label>Год публикации: <br /><input name="Year" /></label><br />
-                        <input id="btnAdd" value="Добавить книгу" />
-                    }*@
                 </div>
             </div>
         </div>

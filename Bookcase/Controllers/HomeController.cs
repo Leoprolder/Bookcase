@@ -40,13 +40,32 @@ namespace Bookcase.Controllers
             return View("Index");
         }
 
-        [HttpPut]
-        public ActionResult EditBook(Book newBook)
+        [HttpPost]
+        public ActionResult EditBook(int? Id, string Title, List<string> FirstName, List<string> LastName, int? PageCount, string Publisher, int? Year)
         {
-            Book book = db.Books.Find(newBook.Id);
-            //?
+            List<Author> authors = new List<Author>();
+            int authorCount = FirstName.Count == LastName.Count ? FirstName.Count : 0;
+            for (int i = 0; i < authorCount; i++)
+            {
+                authors.Add(new Author(FirstName[i], LastName[i]));
+            }
+            Book book = new Book(Title, authors, (int)PageCount, (int)Year, Publisher);
+            book.Id = (int)Id;
 
-            return View();
+            if (Id != null)
+            {
+                Book bookTemp = db.Books.Find((int)(Id));
+                db.Books.Remove(bookTemp);
+                db.SaveChanges();
+            }
+
+            db.Books.Add(book);
+            db.SaveChanges();
+
+            IEnumerable<Book> books = db.Books;
+            ViewBag.Books = books;
+
+            return View("Index");
         }
 
         [HttpGet]
